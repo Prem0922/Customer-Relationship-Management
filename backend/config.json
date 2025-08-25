@@ -1,0 +1,25 @@
+{
+    "tesseract_path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+    "window_title": "Transit Card Management",
+    "browser_keywords": [
+        "firefox",
+        "chrome",
+        "edge",
+        "browser",
+        "brave"
+    ],
+    "crop_settings": {
+        "top": 120,
+        "left": 10,
+        "right": 10,
+        "bottom": 20
+    },
+    "retry_settings": {
+        "max_retries": 3,
+        "delay": 1
+    },
+    "credentials": {
+        "email": "",
+        "password": ""
+    }
+}

@@ -1,0 +1,39 @@
+
+# Core FastAPI and ASGI server
+fastapi
+uvicorn
+
+# Database and ORM
+sqlalchemy
+psycopg2-binary
+
+# Environment variables
+python-dotenv
+
+# Data validation and serialization
+pydantic
+python-multipart
+email-validator
+
+# Authentication and security
+bcrypt
+pyjwt
+
+# Faker for data generation
+faker
+
+# CORS (handled by FastAPI, but included for completeness)
+# fastapi-cors  # Only if you use it directly; FastAPI's built-in CORS is usually enough
+email-validator
+email_validator
+# If you use any of these for automation or OCR, include them:
+pyautogui
+opencv-python
+pytesseract
+pillow
+numpy
+mss
+
+# Optional: for development and code quality
+black
+pylint

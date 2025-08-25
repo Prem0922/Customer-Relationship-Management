@@ -1,0 +1,24 @@
+# Core dependencies for backend
+fastapi==0.104.1
+uvicorn==0.24.0
+sqlalchemy==2.0.23
+python-dotenv==1.0.1
+faker==20.1.0
+pydantic==2.5.2
+python-multipart==0.0.6
+fastapi-cors==0.0.6
+bcrypt==4.0.1
+pyjwt==2.8.0
+
+# UI Automation dependencies
+pyautogui==0.9.54
+opencv-python==4.8.1.78
+pytesseract==0.3.10
+Pillow==10.0.0
+numpy==1.24.3
+pynput==1.7.6
+mss==9.0.1
+
+# Optional dependencies for development
+black==23.3.0  # Code formatting
+pylint==2.17.4  # Code linting 54
