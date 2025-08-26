@@ -1,319 +1,275 @@
-# 🚇 Transit Card Management CRM System
+# CRM Application
 
-A comprehensive Customer Relationship Management (CRM) system designed specifically for transit card operations. This full-stack application provides a modern, responsive interface for managing customers, transit cards, trips, service requests, and fare disputes.
-
-## 🌟 Features
-
-### 🔐 Authentication & Security
-- **JWT-based Authentication** with bcrypt password hashing
-- **Protected Routes** with role-based access control
-- **Session Management** with automatic token refresh
-- **API Key Protection** for backend endpoints
-
-### 👥 Customer Management
-- **Customer Registration** with validation
-- **Profile Management** (name, email, phone, notifications)
-- **Customer Search** and filtering
-- **Customer History** tracking
-
-### 💳 Transit Card Operations
-- **Card Issuance** and registration
-- **Balance Management** (reload, deduct)
-- **Card Status Tracking** (Active, Suspended, Lost, etc.)
-- **Product Management** (passes, tickets)
-- **Card History** and transaction logs
-
-### 🚌 Trip Management
-- **Trip Recording** with entry/exit locations
-- **Fare Calculation** and tracking
-- **Route Management** with operator details
-- **Transit Mode Support** (bus, train, subway)
-
-### 🎫 Service & Support
-- **Service Request Management** with priority levels
-- **Case Tracking** with status updates
-- **Fare Dispute Resolution**
-- **Customer Support** ticket system
-
-### 📊 Analytics & Reporting
-- **Dashboard Analytics** with key metrics
-- **Transaction History** with detailed logs
-- **Tap History** tracking
-- **Financial Reports** and summaries
-
-### 🔧 API Integration
-- **RESTful API** with standardized responses
-- **POS System Integration** for card operations
-- **Automation Support** with robot run IDs
-- **Real-time Sync** capabilities
+A comprehensive Customer Relationship Management system for transit card operations, built with FastAPI backend and React frontend.
 
 ## 🏗️ Architecture
 
-### Frontend (React + TypeScript)
-- **React 18** with functional components and hooks
-- **TypeScript** for type safety
-- **Chakra UI** for modern, accessible components
-- **React Router** for navigation
-- **Axios** for API communication
-- **Vite** for fast development and building
-
-### Backend (FastAPI + Python)
-- **FastAPI** for high-performance API
-- **SQLAlchemy** ORM with PostgreSQL/SQLite support
-- **Pydantic** for data validation
-- **JWT** for authentication
-- **CORS** enabled for cross-origin requests
-
-### Database
-- **PostgreSQL** (production) / **SQLite** (development)
-- **Relational Design** with proper foreign keys
-- **Cascade Operations** for data integrity
+- **Backend**: FastAPI + SQLAlchemy + PostgreSQL/SQLite
+- **Frontend**: React + TypeScript + Chakra UI + React Router
+- **Database**: PostgreSQL (production) / SQLite (development)
+- **Authentication**: JWT-based with bcrypt password hashing
 
 ## 📁 Project Structure
 
 ```
 CRM/
-├── src/                          # Frontend React application
-│   ├── components/               # Reusable UI components
-│   │   ├── EditModal.tsx        # Generic edit modal
-│   │   ├── Navbar.tsx           # Navigation sidebar
-│   │   ├── ProtectedRoute.tsx   # Route protection
-│   │   └── PublicRoute.tsx      # Public route handling
-│   ├── context/                 # React context providers
-│   │   └── AuthContext.tsx      # Authentication context
-│   ├── pages/                   # Application pages
-│   │   ├── Home.tsx            # Dashboard home
-│   │   ├── Login.tsx           # Authentication
-│   │   ├── Customers.tsx       # Customer management
-│   │   ├── Products.tsx        # Card/product management
-│   │   ├── Purchases.tsx       # Purchase tracking
-│   │   ├── ServiceRequest.tsx  # Service requests
-│   │   ├── TransactionHistory.tsx # Transaction logs
-│   │   └── FareDisputes.tsx    # Dispute management
-│   ├── services/               # API service layer
-│   │   └── api.ts             # API client functions
-│   ├── App.tsx                # Main application component
-│   ├── Routes.tsx             # Route definitions
-│   └── main.tsx              # Application entry point
-├── backend/                    # FastAPI backend
-│   ├── routers/               # API route modules
-│   │   └── auth.py           # Authentication routes
-│   ├── api.py                # Main API endpoints
-│   ├── models.py             # Database models
-│   ├── database.py           # Database configuration
-│   ├── main.py              # FastAPI application
-│   ├── requirements.txt     # Python dependencies
-│   └── generate_data.py     # Sample data generation
-├── package.json              # Frontend dependencies
-├── vite.config.ts           # Vite configuration
-├── tsconfig.json            # TypeScript configuration
+├── backend/                 # FastAPI backend
+│   ├── __init__.py
+│   ├── main.py             # FastAPI app entry point
+│   ├── api.py              # Main API routes and logic
+│   ├── models.py           # SQLAlchemy database models
+│   ├── database.py         # Database connection and session
+│   ├── routers/            # API route modules
+│   │   └── auth.py         # Authentication endpoints
+│   ├── init_db.py          # Database schema initialization
+│   ├── generate_data.py    # Demo data generation
+│   ├── delete_db.py        # Database cleanup utilities
+│   ├── requirements.txt    # Python dependencies
+│   └── config.json         # Configuration file
+├── src/                    # React frontend
+│   ├── components/         # Reusable UI components
+│   ├── pages/              # Application pages
+│   ├── context/            # React context providers
+│   ├── services/           # API service layer
+│   ├── Routes.tsx          # Application routing
+│   └── App.tsx             # Main app component
+├── package.json            # Node.js dependencies
 └── README.md               # This file
 ```
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js** (v16 or higher)
-- **Python** (v3.8 or higher)
+
+- **Python 3.11+**
+- **Node.js 18+**
+- **npm or yarn**
 - **PostgreSQL** (optional, SQLite used by default)
 
-### Frontend Setup
+### 1. Backend Setup
+
+#### Clone and Navigate
 ```bash
-# Install dependencies
+cd CRM/backend
+```
+
+#### Create Virtual Environment
+**Windows:**
+```bash
+python -m venv .venv
+.\.venv\Scripts\activate
+```
+
+**macOS/Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+#### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+#### Environment Configuration
+Create a `.env` file in `CRM/backend/`:
+```env
+# Database (optional - defaults to SQLite if not set)
+DATABASE_URL=postgresql://username:password@localhost:5432/crm_db
+
+# API Security
+API_KEY=your_secret_api_key_here
+
+# JWT Secret (for production)
+SECRET_KEY=your_jwt_secret_key_here
+```
+
+#### Initialize Database
+```bash
+# Create tables and schema
+python init_db.py
+
+# (Optional) Generate demo data
+python generate_data.py
+```
+
+#### Run Backend Server
+```bash
+python -m uvicorn main:app --reload --port 8000
+```
+
+**Backend will be available at:**
+- API Base: `http://127.0.0.1:8000`
+- Swagger Docs: `http://127.0.0.1:8000/docs`
+- ReDoc: `http://127.0.0.1:8000/redoc`
+- Health Check: `http://127.0.0.1:8000/`
+
+### 2. Frontend Setup
+
+#### Navigate to Frontend Directory
+```bash
+cd CRM
+```
+
+#### Install Dependencies
+```bash
 npm install
+```
 
-# Start development server
+#### Run Development Server
+```bash
 npm run dev
+```
 
-# Build for production
+**Frontend will be available at:**
+- `http://localhost:5173` (Vite default port)
+
+#### Build for Production
+```bash
 npm run build
 ```
 
-### Backend Setup
-```bash
-# Navigate to backend directory
-cd backend
+## 🗄️ Database Models
 
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+### Core Entities
 
-# Install dependencies
-pip install -r requirements.txt
+- **Customer**: Transit card holders with contact information
+- **Card**: Physical/virtual transit cards linked to customers
+- **Trip**: Transit journeys with fare and route details
+- **Case**: Customer support tickets and issues
+- **TapHistory**: Card tap events at stations/vehicles
+- **FareDispute**: Disputed fare charges
+- **User**: System users (agents/admins)
 
-# Start the server
-uvicorn main:app --reload --port 8000
+### Database Schema
+```sql
+-- Example table structure
+customers:
+  - id (PK): CUST000001
+  - name: John Doe
+  - email: john@example.com
+  - phone: +1234567890
+  - notifications: Email Enabled
+  - join_date: 2024-01-15
+
+cards:
+  - id (PK): 4716000000000001
+  - type: Bank Card
+  - status: ACTIVE
+  - balance: 45.67
+  - customer_id (FK): CUST000001
+  - issue_date: 2024-01-15
 ```
 
-### Database Setup
+## 🔌 API Endpoints
+
+### Authentication
+- `POST /auth/signup` - User registration
+- `POST /auth/login` - User login
+
+### Core Resources
+- `GET/POST/PUT/DELETE /customers/` - Customer management
+- `GET/POST/PUT/DELETE /cards/` - Card operations
+- `GET/POST/PUT/DELETE /trips/` - Trip records
+- `GET/POST/PUT/DELETE /cases/` - Support cases
+- `GET/POST/PUT/DELETE /tap-history/` - Tap events
+- `GET/POST/PUT/DELETE /fare-disputes/` - Fare disputes
+
+### Special Operations
+- `POST /cards/issue` - Issue new transit card
+- `POST /cards/{id}/reload` - Add funds to card
+- `POST /cards/{id}/products` - Add transit products
+- `GET /cards/{id}/balance` - Check card balance
+- `GET /cards/{id}/transactions` - Card transaction history
+- `POST /payment/simulate` - Simulate payment processing
+- `POST /simulate/cardTap` - Simulate card tap event
+
+### Reports
+- `GET /reports/summary` - System overview statistics
+
+## 🧪 Testing
+
+### Backend Testing
 ```bash
-# The database will be created automatically on first run
-# For sample data, use the admin endpoint:
-curl -X POST http://localhost:8000/admin/generate-data
+cd CRM/backend
+
+# Test database connection
+curl http://127.0.0.1:8000/admin/db-info
+
+# Test API key authentication
+curl -H "x-api-key: your_api_key" http://127.0.0.1:8000/customers/
+
+# Test without API key (should fail)
+curl http://127.0.0.1:8000/customers/
+```
+
+### Frontend Testing
+1. Open `http://localhost:5173` in browser
+2. Navigate through different pages
+3. Test authentication flow
+4. Verify API calls in browser dev tools
+
+### Demo Data Testing
+```bash
+cd CRM/backend
+
+# Generate fresh demo data
+python generate_data.py
+
+# Test with generated data
+curl -H "x-api-key: your_api_key" http://127.0.0.1:8000/customers/
+curl -H "x-api-key: your_api_key" http://127.0.0.1:8000/cards/
 ```
 
 ## 🔧 Configuration
 
-### Environment Variables
-Create a `.env` file in the backend directory:
+### Backend Configuration
+- **Database**: Configure via `DATABASE_URL` environment variable
+- **API Keys**: Set `API_KEY` for endpoint protection
+- **CORS**: Configured for development (allows all origins)
 
-```env
-# Database
-DATABASE_URL=postgresql://user:password@localhost/crm_db
+### Frontend Configuration
+- **API Base URL**: Automatically switches between local and hosted
+- **Authentication**: JWT tokens stored in localStorage
+- **Routing**: Protected routes require authentication
 
-# Security
-SECRET_KEY=your-secret-key-here
-API_KEY=mysecretkey
+## 🚨 Troubleshooting
 
-# Server
-HOST=0.0.0.0
-PORT=8000
-```
+### Common Issues
 
-### API Configuration
-The frontend automatically detects the backend URL:
-- **Development**: `http://127.0.0.1:8000`
-- **Production**: `https://crm-n577.onrender.com`
-
-## 📚 API Documentation
-
-### Authentication Endpoints
-- `POST /auth/signup` - User registration
-- `POST /auth/login` - User authentication
-
-### Customer Management
-- `GET /customers/` - List all customers
-- `POST /customers/` - Create new customer
-- `PUT /customers/{id}` - Update customer
-- `DELETE /customers/{id}` - Delete customer
-
-### Card Operations
-- `GET /cards/` - List all cards
-- `POST /cards/` - Create new card
-- `POST /api/cards/issue` - Issue card (POS API)
-- `POST /api/cards/{id}/reload` - Reload card balance
-- `POST /api/cards/{id}/products` - Add product to card
-
-### Trip Management
-- `GET /trips/` - List all trips
-- `POST /trips/` - Create new trip
-- `PUT /trips/{id}` - Update trip
-
-### Service Requests
-- `GET /cases/` - List all cases
-- `POST /cases/` - Create new case
-- `PUT /cases/{id}` - Update case
-
-### Fare Disputes
-- `GET /fare-disputes/` - List all disputes
-- `POST /fare-disputes/` - Create new dispute
-- `PUT /fare-disputes/{id}` - Update dispute
-
-### Tap History
-- `GET /tap-history/` - List tap entries
-- `POST /tap-history/` - Create tap entry
-- `POST /simulate/cardTap` - Simulate card tap
-
-## 🎯 Key Features Explained
-
-### Card Management System
-The system supports various card operations:
-- **Card Issuance**: Register new cards with customer association
-- **Balance Management**: Add funds, deduct fares, track balances
-- **Product Loading**: Add passes, tickets, or special products
-- **Status Tracking**: Monitor card status (Active, Suspended, Lost)
-
-### Customer Support Workflow
-1. **Service Request Creation**: Customers can submit support tickets
-2. **Case Assignment**: Requests are assigned to agents
-3. **Status Tracking**: Monitor case progress and updates
-4. **Resolution**: Track resolution time and customer satisfaction
-
-### Fare Dispute Resolution
-- **Dispute Recording**: Log fare-related issues
-- **Evidence Tracking**: Link disputes to specific trips
-- **Resolution Process**: Track dispute status and outcomes
-- **Financial Impact**: Monitor dispute amounts and resolutions
-
-### Real-time Operations
-- **Card Tap Simulation**: Test card operations in real-time
-- **Balance Updates**: Instant balance updates on transactions
-- **Status Synchronization**: Real-time status updates across systems
-
-## 🔒 Security Features
-
-### Authentication
-- **JWT Tokens**: Secure token-based authentication
-- **Password Hashing**: bcrypt for secure password storage
-- **Session Management**: Automatic token refresh and logout
-
-### API Security
-- **API Key Protection**: Required for sensitive operations
-- **Input Validation**: Comprehensive data validation
-- **CORS Configuration**: Secure cross-origin requests
-- **Error Handling**: Secure error responses
-
-### Data Protection
-- **SQL Injection Prevention**: Parameterized queries
-- **XSS Protection**: Input sanitization
-- **CSRF Protection**: Token-based request validation
-
-## 🚀 Deployment
-
-### Frontend Deployment
+#### Backend Won't Start
 ```bash
-# Build the application
-npm run build
+# Check if port 8000 is available
+netstat -an | grep 8000
 
-# Deploy to your preferred hosting service
-# (Netlify, Vercel, AWS S3, etc.)
+# Check Python version
+python --version
+
+# Verify virtual environment
+which python
 ```
 
-### Backend Deployment
+#### Database Connection Issues
 ```bash
-# Using Docker
-docker build -t crm-backend .
-docker run -p 8000:8000 crm-backend
+# Test database connection
+python -c "from database import engine; print(engine.url)"
 
-# Using Heroku
-heroku create your-app-name
-git push heroku main
-
-# Using Railway/Render
-# Connect your repository and deploy
+# Recreate database
+python init_db.py
 ```
 
-### Database Deployment
-- **Development**: SQLite (file-based)
-- **Production**: PostgreSQL (recommended)
-- **Cloud Options**: AWS RDS, Heroku Postgres, Railway Postgres
+#### Frontend Build Issues
+```bash
+# Clear npm cache
+npm cache clean --force
 
-## 🤝 Contributing
+# Remove node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
+#### API Authentication Errors
+- Verify `x-api-key` header is sent
+- Check `API_KEY` environment variable
+- Ensure backend is running on correct port
 
-## 📝 License
-
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For support and questions:
-- **Issues**: Create an issue in the GitHub repository
-- **Documentation**: Check the inline code comments
-- **API Docs**: Visit `/docs` when running the backend server
-
-## 🔄 Version History
-
-- **v1.0.0** - Initial release with core CRM functionality
-- **v1.1.0** - Added fare dispute management
-- **v1.2.0** - Enhanced API integration and POS support
-- **v1.3.0** - Improved UI/UX and performance optimizations
-
----
-
-**Built with ❤️ for efficient transit card management**
